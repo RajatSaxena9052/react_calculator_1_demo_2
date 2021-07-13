@@ -12,29 +12,29 @@ class App extends React.Component {
     super(props)
 
     this.state = {
-      value: 0
+      value: '0'
     }
   }
 
   clear = () => {
     this.setState({
-      value: 0
+      value: '0'
     })
 
   }
 
   numbers = (event) => {
-    if (this.state.value === "ERROR") {
+    if (this.state.value === "ERROR" || this.state.value === "Infinity") {
 
       console.log("hahaha form error")
 
       this.setState({
-        value: ""
+        value: event.target.name
       })
 
     }
 
-    else if (this.state.value === 0) {
+    else if (this.state.value === '0') {
 
       this.setState({
         value: event.target.name
@@ -51,59 +51,74 @@ class App extends React.Component {
   }
 
   backspace = (event) => {
-    console.log(this.state.value, "fornivn abxsdcvklsv")
-    if (this.state.value == 0) {
+
+    if (this.state.value === '0' && this.state.value.length === 1) {
       this.setState({
-        value: 0
+        value: '0'
       })
     }
-    else if (this.state.value === "ERROR") {
-      this.setState({
-        value: 0
-      })
 
-    } else {
+    else if (this.state.value === "ERROR" || this.state.value === "Infinity") {
+      this.setState({
+        value: '0'
+      })
+    }
+
+    else {
       this.setState({
         value: this.state.value.slice(0, -1)
       })
     }
+
   }
 
 
 
   operation = (event) => {
 
-    console.log(this.state.value)
+    if (this.state.value.slice(-1) === event.target.name) {
 
-   /*  if (this.state.value === "ERROR") {
-
-      console.log("hahaha form error")
       this.setState({
-        value: event.target.value
+        value: this.state.value += ""
       })
-    } */
-    // {
+    }
+    else if (this.state.value === "ERROR") {
+      this.setState({
+        value: event.target.name
+      })
+    }
+    else if (this.state.value === "Infinity") {
+      console.log(this.state.value, "from infin ity")
+      this.setState({
+        value: event.target.name
+      })
+    }
+    else if (/[*,/]/g.test(this.state.value.slice(-1)) === true) {
+
+      if (event.target.name === "-") {
+        this.setState({
+          value: this.state.value += event.target.name
+        })
+      } else {
+        console.log("buluaya")
+        this.setState({
+          value: this.state.value.slice(0, -1).concat(event.target.name)
+        })
+      }
+
+    }
+    else {
       this.setState({
         value: this.state.value += event.target.name
       })
-    // }
+    }
 
-    /*  if (/[*,/]/g.test(this.state.value.slice(-1)) === true) {
-       this.setState(
-         {
-           value: this.state.value[this.state.value.length - 1] += event.target.name
-         }
-       )
- 
-     } else {
-       
-     } */
+
   }
 
 
 
   result = (event) => {
-    console.log(this.state, "result ke andar se")
     try {
 
       if (this.state.value === 0) {
@@ -112,7 +127,7 @@ class App extends React.Component {
         })
       }
       else {
-        // console.log(typeof this.state.value, Number(this.state.value), "andar se")
+
         if (this.state.value.length > 1) {
           this.state.value = this.state.value.split(/(?=[+,/,*,-,+])|(?<=[+,/,*,-,+])/g)
             .map(num => {
@@ -145,7 +160,7 @@ class App extends React.Component {
     return (
       <div className="main" >
 
-        <input value={this.state.value} type="text" id="screen" /* maxlength={Infinit} */ readOnly></input>
+        <input value={this.state.value} type="text" id="screen" maxLength={Infinity} readOnly></input>
 
         <div id="cal-bdy">
           <button id="clr-btn" onClick={this.clear} className="wide fnbutton">C</button>
@@ -172,7 +187,7 @@ class App extends React.Component {
 
           <button onClick={this.result} id="equal" className="wide fnbutton">=</button>
 
-          <button onClick={this.operation} name='0' id="zero" className="wide button">0</button>
+          <button onClick={this.numbers} name='0' id="zero" className="wide button">0</button>
 
           <button onClick={this.operation} name="." className="wide button">.</button>
         </div>
