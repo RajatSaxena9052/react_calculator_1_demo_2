@@ -12,19 +12,29 @@ class App extends React.Component {
     super(props)
 
     this.state = {
-      value: ""
+      value: 0
     }
   }
 
   clear = () => {
     this.setState({
-      value: ""
+      value: 0
     })
 
   }
 
   numbers = (event) => {
-    if (this.state.value === "") {
+    if (this.state.value === "ERROR") {
+
+      console.log("hahaha form error")
+
+      this.setState({
+        value: ""
+      })
+
+    }
+
+    else if (this.state.value === 0) {
 
       this.setState({
         value: event.target.name
@@ -41,44 +51,84 @@ class App extends React.Component {
   }
 
   backspace = (event) => {
-    this.setState({
-      value: this.state.value.slice(-1)
+    console.log(this.state.value, "fornivn abxsdcvklsv")
+    if (this.state.value == 0) {
+      this.setState({
+        value: 0
+      })
     }
-    )
+    else if (this.state.value === "ERROR") {
+      this.setState({
+        value: 0
+      })
+
+    } else {
+      this.setState({
+        value: this.state.value.slice(0, -1)
+      })
+    }
   }
 
 
 
   operation = (event) => {
-    console.log(this.state)
 
-    this.setState({
-      value: this.state.value += event.target.name
-    })
+    console.log(this.state.value)
 
+   /*  if (this.state.value === "ERROR") {
 
+      console.log("hahaha form error")
+      this.setState({
+        value: event.target.value
+      })
+    } */
+    // {
+      this.setState({
+        value: this.state.value += event.target.name
+      })
+    // }
 
-    /* if (/[\*,\/]/g.test(this.state.value.slice(-1)) === true) {
-      this.setState(
-        {
-          value: this.state.value.concat(event.target.name)
-        }
-      )
-
-    } else { */
-
-
-
-
-
+    /*  if (/[*,/]/g.test(this.state.value.slice(-1)) === true) {
+       this.setState(
+         {
+           value: this.state.value[this.state.value.length - 1] += event.target.name
+         }
+       )
+ 
+     } else {
+       
+     } */
   }
 
+
+
   result = (event) => {
+    console.log(this.state, "result ke andar se")
     try {
 
-      this.setState({
-        value: eval(this.state.value)
-      })
+      if (this.state.value === 0) {
+        this.setState({
+          value: 0
+        })
+      }
+      else {
+        // console.log(typeof this.state.value, Number(this.state.value), "andar se")
+        if (this.state.value.length > 1) {
+          this.state.value = this.state.value.split(/(?=[+,/,*,-,+])|(?<=[+,/,*,-,+])/g)
+            .map(num => {
+              if (Number(num)) {
+                return Number(num)
+              } else {
+                return num
+              }
+            })
+            .join("")
+        }
+
+        this.setState({
+          value: eval(this.state.value).toString()
+        })
+      }
 
     } catch (e) {
 
@@ -95,7 +145,7 @@ class App extends React.Component {
     return (
       <div className="main" >
 
-        <input value={this.state.value} type="text" id="screen" readOnly></input>
+        <input value={this.state.value} type="text" id="screen" /* maxlength={Infinit} */ readOnly></input>
 
         <div id="cal-bdy">
           <button id="clr-btn" onClick={this.clear} className="wide fnbutton">C</button>
@@ -124,7 +174,7 @@ class App extends React.Component {
 
           <button onClick={this.operation} name='0' id="zero" className="wide button">0</button>
 
-          <button className="wide button">.</button>
+          <button onClick={this.operation} name="." className="wide button">.</button>
         </div>
 
       </div >
