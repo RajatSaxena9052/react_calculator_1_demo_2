@@ -24,7 +24,7 @@ class App extends React.Component {
   }
 
   numbers = (event) => {
-    if (this.state.value === "ERROR" || this.state.value === "Infinity") {
+    if (this.state.value === "ERROR" || this.state.value === "Infinity" || this.state.value === "NaN") {
 
       console.log("hahaha form error")
 
@@ -34,13 +34,13 @@ class App extends React.Component {
 
     }
 
-    else if (this.state.value === '0') {
-
-      this.setState({
-        value: event.target.name
-      })
-
-    }
+    /*  else if (this.state.value === '0') {
+ 
+       this.setState({
+         value: event.target.name
+       })
+ 
+     } */
     else {
 
       this.setState({
@@ -58,7 +58,7 @@ class App extends React.Component {
       })
     }
 
-    else if (this.state.value === "ERROR" || this.state.value === "Infinity") {
+    else if (this.state.value === "ERROR" || this.state.value === "Infinity" || this.state.value === "NaN") {
       this.setState({
         value: '0'
       })
@@ -82,25 +82,20 @@ class App extends React.Component {
         value: this.state.value += ""
       })
     }
-    else if (this.state.value === "ERROR") {
+    else if (this.state.value === "ERROR" || this.state.value === "Infinity" || this.state.value === "NaN") {
       this.setState({
         value: event.target.name
       })
     }
-    else if (this.state.value === "Infinity") {
-      console.log(this.state.value, "from infin ity")
-      this.setState({
-        value: event.target.name
-      })
-    }
-    else if (/[*,/]/g.test(this.state.value.slice(-1)) === true) {
+
+    else if (/[*,/,+,-]/g.test(this.state.value.slice(-1)) === true) {
 
       if (event.target.name === "-") {
         this.setState({
           value: this.state.value += event.target.name
         })
       } else {
-        console.log("buluaya")
+        // console.log("buluaya")
         this.setState({
           value: this.state.value.slice(0, -1).concat(event.target.name)
         })
@@ -160,7 +155,9 @@ class App extends React.Component {
     return (
       <div className="main" >
 
-        <input value={this.state.value} type="text" id="screen" maxLength={Infinity} readOnly></input>
+        {/* <input value={this.state.value} type="text" id="screen" readOnly></input> */}
+
+        <div id="screen">{this.state.value}</div>
 
         <div id="cal-bdy">
           <button id="clr-btn" onClick={this.clear} className="wide fnbutton">C</button>
