@@ -1,11 +1,5 @@
 import './App.css';
 import React from 'react';
-/*import { clear } from './handler/clear';*/
-/* import { backspace } from './handler/backspace';
-
-import {numbers} from './handler/numbers';
-import { result } from './handler/result' */
-
 
 class App extends React.Component {
   constructor(props) {
@@ -135,9 +129,19 @@ class App extends React.Component {
             .join("")
         }
 
-        this.setState({
-          value: eval(this.state.value).toString()
-        })
+        if (Number.isNaN(eval(this.state.value))) {
+          // console.log("agay")
+          this.setState({
+            value: "ERROR"
+          })
+        }
+        else {
+          // console.log("yha seagay")
+
+          this.setState({
+            value: eval(this.state.value).toString()
+          })
+        }
       }
 
     } catch (e) {
