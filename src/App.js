@@ -20,7 +20,7 @@ class App extends React.Component {
   numbers = (event) => {
     if (/ERROR/.test(this.state.value) || /Infinity/.test(this.state.value) || /NaN/.test(this.state.value)) {
 
-      console.log("hahaha form error")
+      // console.log("hahaha form error")
 
       this.setState({
         value: event.target.name
@@ -101,8 +101,6 @@ class App extends React.Component {
         value: this.state.value += event.target.name
       })
     }
-
-
   }
 
 
@@ -154,7 +152,7 @@ class App extends React.Component {
   }
 
   render() {
-    console.log(this.state.value, "dbcvdfe vj");
+    // console.log(this.state.value, "dbcvdfe vj");
 
     return (
       <div className="main" >
