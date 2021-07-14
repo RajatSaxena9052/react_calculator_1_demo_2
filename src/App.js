@@ -18,7 +18,7 @@ class App extends React.Component {
   }
 
   numbers = (event) => {
-    if (this.state.value === "ERROR" || this.state.value === "Infinity" || this.state.value === "NaN") {
+    if (/ERROR/.test(this.state.value) || /Infinity/.test(this.state.value) || /NaN/.test(this.state.value)) {
 
       console.log("hahaha form error")
 
@@ -52,7 +52,7 @@ class App extends React.Component {
       })
     }
 
-    else if (this.state.value === "ERROR" || this.state.value === "Infinity" || this.state.value === "NaN") {
+    else if (/ERROR/.test(this.state.value) || /Infinity/.test(this.state.value) || /NaN/.test(this.state.value)) {
       this.setState({
         value: '0'
       })
@@ -76,7 +76,7 @@ class App extends React.Component {
         value: this.state.value += ""
       })
     }
-    else if (this.state.value === "ERROR" || this.state.value === "Infinity" || this.state.value === "NaN") {
+    else if (/ERROR/.test(this.state.value) || /Infinity/.test(this.state.value) || /NaN/.test(this.state.value)) {
       this.setState({
         value: event.target.name
       })
